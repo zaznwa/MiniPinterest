@@ -7,22 +7,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.geeks.minipinterest.databinding.ItemListBinding
-import com.geeks.minipinterest.model.models.ApiResponse
+import com.geeks.minipinterest.model.models.Hit
 
-class ApiAdapter : ListAdapter<ApiResponse.Hit, ApiAdapter.ApiViewHolder>(ApiDiffUtil) {
+class ApiAdapter : ListAdapter<Hit, ApiAdapter.ApiViewHolder>(ApiDiffUtil) {
+
+
     class ApiViewHolder(
-        val binding: ItemListBinding,
-    ) : RecyclerView.ViewHolder(binding.root){
-        fun bind(hit: ApiResponse.Hit) {
-            binding.apply {
-                Glide.with(itemView)
-                    .load(hit.largeImageURL)
-                    .into(image)
-            }
-        }
-    }
+        val binding: ItemListBinding
+    ) : RecyclerView.ViewHolder(
+        binding.root
+    ){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApiViewHolder {
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApiAdapter.ApiViewHolder {
         val binding = ItemListBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -31,18 +28,24 @@ class ApiAdapter : ListAdapter<ApiResponse.Hit, ApiAdapter.ApiViewHolder>(ApiDif
         return ApiViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ApiViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+    override fun onBindViewHolder(holder: ApiAdapter.ApiViewHolder, position: Int) {
+        holder.binding.apply {
+            val item = getItem(position)
+            Glide.with(holder.itemView)
+                .load(item.largeImageURL)
+                .into(image)
+
+        }
     }
 
-    object ApiDiffUtil : DiffUtil.ItemCallback<ApiResponse.Hit>() {
-        override fun areItemsTheSame(oldItem: ApiResponse.Hit, newItem: ApiResponse.Hit): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: ApiResponse.Hit, newItem: ApiResponse.Hit): Boolean {
+    object ApiDiffUtil : DiffUtil.ItemCallback<Hit>(){
+        override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
             return oldItem == newItem
         }
+
+        override fun areContentsTheSame(oldItem: Hit, newItem: Hit): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }

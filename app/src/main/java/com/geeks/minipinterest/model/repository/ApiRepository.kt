@@ -15,6 +15,7 @@ class ApiRepository @Inject constructor(
             Either.Success(response)
         } catch (e: Throwable) {
             Log.e("ololo", "getImages() returned error: $e", )
+
             Either.Error(e)
         }
     }
