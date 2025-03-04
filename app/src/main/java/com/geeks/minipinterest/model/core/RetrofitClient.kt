@@ -1,6 +1,7 @@
 package com.geeks.minipinterest.model.core
 
 import com.geeks.minipinterest.model.service.ApiService
+import com.geeks.minipinterest.model.service.WeatherApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -44,4 +45,10 @@ object RetrofitClient {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWeatherApiService(retrofit: Retrofit): WeatherApiService {
+        return retrofit.create(WeatherApiService::class.java)
+    }
 }

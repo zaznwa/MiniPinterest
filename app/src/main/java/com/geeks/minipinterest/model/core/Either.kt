@@ -1,6 +1,5 @@
 package com.geeks.minipinterest.model.core
 
-import com.geeks.minipinterest.model.models.ApiResponse
 
 sealed class Either<out L, out R> {
     data class Error<out L>(val error: L) : Either<L, Nothing>()
